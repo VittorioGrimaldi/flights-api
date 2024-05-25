@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Exception;
@@ -35,6 +36,34 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User registered successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Server Error'
+            ]);
+        }
+    }
+
+    public function login(LoginRequest $request)
+    {
+        try {
+            $user = User::where('email', $request->email)->first();
+
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid credentials'
+                ]);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'status' => true,
+                'token' => $token
             ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());

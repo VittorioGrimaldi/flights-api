@@ -14,4 +14,5 @@ Route::get('/hello-world', function (Request $request) {
 
 Route::group(['prefix' => 'v1'], function () {
     Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
 });
