@@ -18,7 +18,7 @@ class FlightFactory extends Factory
     {
         $departureDatetime = fake()->dateTimeBetween('now', '+1 year');
         $departureDatetime->setTime($departureDatetime->format('H'), 0, 0); // round to the nearest hour
-        $interval = '+' . rand(30, 20 * 60) . ' minutes';
+        $interval = '+' . rand(60, 20 * 60) . ' minutes';
         $arrivalDatetime = (clone $departureDatetime)->modify($interval);
         $arrivalDatetime->setTime($arrivalDatetime->format('H'), 0, 0); // round to the nearest hour
         $duration = $arrivalDatetime->diff($departureDatetime);
