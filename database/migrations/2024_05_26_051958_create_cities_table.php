@@ -11,18 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('airports', function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('iata_code', 3)->unique();
-            $table->string('icao_code', 4)->unique();
             $table->string('country');
-            $table->foreignId('city_id')->constrained();
             $table->string('timezone');
             $table->timestamps();
-            $table->softDeletes();
-
-            $table->unique(['name', 'iata_code', 'icao_code'], name: 'airport_unique');
         });
     }
 
@@ -31,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('airports');
+        Schema::dropIfExists('cities');
     }
 };
